@@ -1,0 +1,13 @@
+name: LoginPasswordSystem
+version: '${project.version}'
+main: dev.wonkypigs.loginpasswordsystem.LoginPasswordSystem
+api-version: 1.19
+authors: [ WonkyPigs ]
+description: A simple plugin which adds a login password system for players
+commands:
+  login:
+    description: The command used to log in the server
+    usage: /login <password>
+  setpassword:
+    description: The command used to set a password for a player
+    usage: /setpassword <password>
