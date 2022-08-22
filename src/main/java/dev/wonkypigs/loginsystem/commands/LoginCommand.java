@@ -1,6 +1,6 @@
-package dev.wonkypigs.loginpasswordsystem.commands;
+package dev.wonkypigs.loginsystem.commands;
 
-import dev.wonkypigs.loginpasswordsystem.LoginPasswordSystem;
+import dev.wonkypigs.loginsystem.LoginSystem;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandExecutor;
@@ -10,7 +10,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class LoginCommand implements CommandExecutor {
 
-    private final LoginPasswordSystem plugin = LoginPasswordSystem.getPlugin(LoginPasswordSystem.class);
+    private final LoginSystem plugin = LoginSystem.getPlugin(LoginSystem.class);
 
     @Override
     public boolean onCommand(org.bukkit.command.CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
@@ -22,7 +22,7 @@ public class LoginCommand implements CommandExecutor {
         }
         else if(!pdata.get(new NamespacedKey(plugin, "loggedin"), PersistentDataType.STRING).equalsIgnoreCase("yes")) {
             if(args.length == 1) {
-                if(pdata.get(new NamespacedKey(plugin, "login_password"), PersistentDataType.STRING).equalsIgnoreCase(args[0])) {
+                if(pdata.get(new NamespacedKey(plugin, "login_password"), PersistentDataType.STRING).equals(args[0])) {
                     pdata.set(new NamespacedKey(plugin, "loggedin"), PersistentDataType.STRING, "yes");
                     player.sendMessage(plugin.prefix + ChatColor.GREEN + "You have successfully logged in.");
                 }
