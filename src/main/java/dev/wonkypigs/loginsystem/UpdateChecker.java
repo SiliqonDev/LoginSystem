@@ -20,10 +20,6 @@ public class UpdateChecker implements Listener {
     private boolean isAvailable;
     private String remoteVersion;
 
-    public UpdateChecker() {
-
-    }
-
     @EventHandler
     public void on(PlayerJoinEvent event) {
         if (!plugin.getConfig().getBoolean("check-for-updates")) {

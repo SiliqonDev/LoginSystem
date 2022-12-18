@@ -1,10 +1,16 @@
 package dev.wonkypigs.loginsystem;
 
+import com.tchristofferson.configupdater.ConfigUpdater;
 import dev.wonkypigs.loginsystem.commands.*;
 import dev.wonkypigs.loginsystem.listeners.PlayerJoinLeaveListener;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 
 public final class LoginSystem extends JavaPlugin {
 
@@ -14,6 +20,29 @@ public final class LoginSystem extends JavaPlugin {
     public void onEnable() {
         getConfig().options().copyDefaults();
         saveDefaultConfig();
+
+        // if config version is old, update it to current version
+        File configFile = new File(getDataFolder(), "config.yml");
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+
+        if (config.getDouble("config-version") != 1.0) {
+            config.set("config-version", 1.0);
+            try {
+                ConfigUpdater.update(this, "config.yml", configFile, Arrays.asList("none"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // save changes
+            try {
+                config.save(configFile);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            // reload config
+            reloadConfig();
+            getLogger().info("Updated config file to latest version");
+        }
+
         registerCommands();
         registerListeners();
 
