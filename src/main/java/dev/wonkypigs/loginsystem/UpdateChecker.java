@@ -22,9 +22,6 @@ public class UpdateChecker implements Listener {
 
     @EventHandler
     public void on(PlayerJoinEvent event) {
-        if (!plugin.getConfig().getBoolean("check-for-updates")) {
-            return;
-        }
         if (event.getPlayer().isOp()) {
             check();
             if (isAvailable) {
