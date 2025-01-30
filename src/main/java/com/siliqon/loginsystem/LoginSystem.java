@@ -1,6 +1,8 @@
 package com.siliqon.loginsystem;
 
 import co.aikar.commands.PaperCommandManager;
+import com.jeff_media.updatechecker.UpdateCheckSource;
+import com.jeff_media.updatechecker.UpdateChecker;
 import com.siliqon.loginsystem.commands.LoginCommand;
 import com.siliqon.loginsystem.commands.PasswordCommand;
 import com.siliqon.loginsystem.files.*;
@@ -16,9 +18,10 @@ import static com.siliqon.loginsystem.utils.misc.logError;
 
 public final class LoginSystem extends JavaPlugin {
     private static LoginSystem INSTANCE; {INSTANCE = this;}
-    public final String PLUGIN_VERSION = "v3.0";
+    public final String PLUGIN_VERSION = "v3.0.1";
 
     public String PREFIX = ChatColor.translateAlternateColorCodes('&', "&8[&bLogin&8]&r ");
+    private String SPIGOT_RESOURCE_ID = "104726";
 
     public NamespacedKey passwordKey = new NamespacedKey(this, "login_password");
     public NamespacedKey loggedinKey = new NamespacedKey(this, "loggedin");
@@ -44,6 +47,14 @@ public final class LoginSystem extends JavaPlugin {
         commandManager = new PaperCommandManager(this);
         registerListeners();
         registerCommands();
+
+        // check for plugin updates
+        new UpdateChecker(this, UpdateCheckSource.SPIGOT, SPIGOT_RESOURCE_ID)
+                .setNotifyOpsOnJoin(true)
+                .setChangelogLink(Integer.parseInt(SPIGOT_RESOURCE_ID))
+                .setDownloadLink(Integer.parseInt(SPIGOT_RESOURCE_ID))
+                .checkEveryXHours(24)
+                .checkNow();
 
         // done
         log(PLUGIN_VERSION + " enabled successfully.");
