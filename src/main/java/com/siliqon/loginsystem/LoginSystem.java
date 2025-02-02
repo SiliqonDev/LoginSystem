@@ -7,6 +7,7 @@ import com.siliqon.loginsystem.commands.LoginCommand;
 import com.siliqon.loginsystem.commands.PasswordCommand;
 import com.siliqon.loginsystem.files.*;
 import com.siliqon.loginsystem.listeners.PlayerListener;
+import com.siliqon.loginsystem.listeners.ServerListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -18,7 +19,7 @@ import static com.siliqon.loginsystem.utils.misc.logError;
 
 public final class LoginSystem extends JavaPlugin {
     private static LoginSystem INSTANCE; {INSTANCE = this;}
-    public final String PLUGIN_VERSION = "v3.0.1";
+    public final String PLUGIN_VERSION = "v"+getDescription().getVersion();
 
     public String PREFIX = ChatColor.translateAlternateColorCodes('&', "&8[&bLogin&8]&r ");
     private String SPIGOT_RESOURCE_ID = "104726";
@@ -49,11 +50,10 @@ public final class LoginSystem extends JavaPlugin {
         registerCommands();
 
         // check for plugin updates
-        new UpdateChecker(this, UpdateCheckSource.SPIGOT, SPIGOT_RESOURCE_ID)
+        new UpdateChecker(this, UpdateCheckSource.SPIGET, SPIGOT_RESOURCE_ID)
                 .setNotifyOpsOnJoin(true)
-                .setChangelogLink(Integer.parseInt(SPIGOT_RESOURCE_ID))
-                .setDownloadLink(Integer.parseInt(SPIGOT_RESOURCE_ID))
-                .checkEveryXHours(24)
+                .setDownloadLink("https://www.spigotmc.org/resources/"+SPIGOT_RESOURCE_ID)
+                .checkEveryXHours(12)
                 .checkNow();
 
         // done
@@ -73,6 +73,7 @@ public final class LoginSystem extends JavaPlugin {
 
     public void registerListeners() {
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
+        Bukkit.getPluginManager().registerEvents(new ServerListener(), this);
     }
 
     public static LoginSystem getInstance() {

@@ -44,6 +44,6 @@ public class LoginCommand extends BaseCommand {
 
     @Subcommand("version")
     public void versionCommand(Player player) {
-        sendMessage(player, plugin.lang.getCurrentPluginVersion().replace("%version_string%", plugin.getName() + " &dv"+plugin.getDescription().getVersion()), true);
+        sendMessage(player, plugin.lang.getCurrentPluginVersion().replace("%version_string%", plugin.getName() + " &d"+plugin.PLUGIN_VERSION), true);
     }
 }
